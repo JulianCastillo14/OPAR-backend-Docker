@@ -1,0 +1,25 @@
+version: '1.0'
+services:
+  db-opar:
+    image: mysql:9.1
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: opar
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  backend-opar:
+    image: juliancastillo14/backend-opar:1.0
+    depends_on:
+      - db-opar
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: opar
+      MYSQL_DB_HOST: db-opar
+    ports:
+      - "2020:2020"
+    links:
+      - db-opar
+volumes:
+  db-data:

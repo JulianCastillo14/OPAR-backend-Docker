@@ -20,9 +20,11 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17
 
 # Definimos la variables de entorno para la base de datos
-ENV MYSQL_ROOT_PASSWORD=password \
+ENV MYSQL_DB_USERNAME=root \
+    MYSQL_ROOT_PASSWORD=password \
     MYSQL_DATABASE=opar \
-    MYSQL_DB_HOST=localhost
+    MYSQL_DB_HOST=localhost \
+    MYSQL_DB_PORT=3306
 
 # Copiamos el archivo .jar
 COPY --from=maven /usr/local/app/target/demo-0.0.1-SNAPSHOT.jar /usr/share/app.jar
@@ -31,4 +33,4 @@ COPY --from=maven /usr/local/app/target/demo-0.0.1-SNAPSHOT.jar /usr/share/app.j
 CMD ["java", "-jar", "/usr/share/app.jar"]
 
 # Exponemos el puerto
-EXPOSE 2020
+EXPOSE 8081
